@@ -13,5 +13,5 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = "io.github.msteblin.Marketplace"
+    mainClass = "io.github.msteblin.Marketplace.App"
 }
