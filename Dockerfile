@@ -4,6 +4,7 @@ COPY gradlew .
 COPY gradle/ ./gradle
 COPY settings.gradle.kts gradle.properties .
 COPY buildSrc/ ./buildSrc
+RUN ./gradlew build || return 0
 COPY . .
 RUN ./gradlew :app:installDist
 
