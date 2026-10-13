@@ -17,7 +17,7 @@ public class Seller {
     @OneToOne
     @NonNull
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Account account;
+    private final Account account;
     @NonNull
     @Column(unique = true)
     private String ms_token;
@@ -26,5 +26,21 @@ public class Seller {
         this.id = id;
         this.account = account;
         ms_token = msToken;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public @NonNull Account getAccount() {
+        return account;
+    }
+
+    public @NonNull String getMs_token() {
+        return ms_token;
+    }
+
+    public void setMs_token(@NonNull String ms_token) {
+        this.ms_token = ms_token;
     }
 }

@@ -22,4 +22,24 @@ public class Account {
         this.login = login;
         this.hash = hash;
     }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public @NonNull String getLogin() {
+        return login;
+    }
+
+    public void setLogin(@NonNull String login) {
+        this.login = login;
+    }
+
+    public @NonNull String getHash() {
+        return hash;
+    }
+
+    public void setHash(@NonNull String hash) {
+        this.hash = hash;
+    }
 }
