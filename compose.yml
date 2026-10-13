@@ -13,6 +13,7 @@ services:
   app:
     image: moysklad-trainee-app
     restart: on-failure
+    env_file: .env
     depends_on:
       - db
     build: .
