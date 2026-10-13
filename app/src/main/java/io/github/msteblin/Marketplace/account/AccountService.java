@@ -2,8 +2,8 @@ package io.github.msteblin.Marketplace.account;
 
 import io.github.msteblin.Marketplace.account.dto.AccountCreationDTO;
 import io.github.msteblin.Marketplace.account.dto.AccountDTO;
-import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,10 +16,13 @@ public class AccountService {
     @SuppressWarnings("unused")
     private AccountRepository accountRepository;
 
+    @Autowired
+    @SuppressWarnings("unused")
+    private PasswordEncoder passwordEncoder;
+
     @Transactional
     public AccountDTO createAccount(AccountCreationDTO accountCreationDTO) {
-        // TODO: implement argon2id hashing
-        Account account = new Account(accountCreationDTO.login(), "");
+        Account account = new Account(accountCreationDTO.login(), passwordEncoder.encode(accountCreationDTO.password()));
         Account savedAccount = accountRepository.save(account);
         return AccountDTO.fromAccount(savedAccount);
     }
