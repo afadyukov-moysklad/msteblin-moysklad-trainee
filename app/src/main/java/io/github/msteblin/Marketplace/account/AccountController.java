@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/accounts")
+@SuppressWarnings("unused")
 public class AccountController {
     @Autowired
     private AccountService accountService;

@@ -7,6 +7,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "accounts")
+@SuppressWarnings("unused")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

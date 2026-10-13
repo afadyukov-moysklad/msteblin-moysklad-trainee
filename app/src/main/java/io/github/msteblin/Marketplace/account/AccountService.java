@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AccountService {
     @Autowired
+    @SuppressWarnings("unused")
     private AccountRepository accountRepository;
 
     @Transactional
