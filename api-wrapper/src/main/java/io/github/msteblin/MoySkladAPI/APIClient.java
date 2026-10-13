@@ -3,6 +3,7 @@ package io.github.msteblin.MoySkladAPI;
 import io.github.msteblin.MoySkladAPI.types.Product;
 import io.github.msteblin.MoySkladAPI.types.Rows;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.client.ReactorClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
@@ -12,7 +13,9 @@ public class APIClient {
     private final RestClient restClient;
 
     public APIClient() {
-        this.restClient = RestClient.builder().baseUrl(MS_API_URL).build();
+        this.restClient = RestClient.builder()
+                .requestFactory(new ReactorClientHttpRequestFactory())
+                .baseUrl(MS_API_URL).build();
     }
 
     public List<Product> getProducts(String token) {
