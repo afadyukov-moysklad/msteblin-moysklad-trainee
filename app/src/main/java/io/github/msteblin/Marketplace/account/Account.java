@@ -25,6 +25,12 @@ public class Account {
         this.hash = "";
     }
 
+    public Account(UUID id) {
+        this.id = id;
+        this.login = "";
+        this.hash = "";
+    }
+
     public Account(@NonNull String login, @NonNull String hash) {
         this.id = new UUID(0, 0);
         this.login = login;

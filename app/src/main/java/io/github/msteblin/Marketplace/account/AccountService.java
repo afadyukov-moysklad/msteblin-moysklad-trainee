@@ -30,7 +30,7 @@ public class AccountService {
     @Transactional
     public AccountDTO getAccount(UUID id) {
         Account account = accountRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("id=" + id));
+                .orElseThrow(() -> new NotFoundException("account id=" + id));
         return AccountDTO.fromAccount(account);
     }
 

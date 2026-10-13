@@ -14,18 +14,24 @@ import java.util.UUID;
 public class Seller {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private final UUID id;
+    private UUID id;
 
-    @OneToOne
+    @OneToOne(optional = false)
     @NonNull
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private final Account account;
+    private Account account;
     @NonNull
     @Column(unique = true, name = "ms_token")
     private String msToken;
 
-    public Seller(UUID id, @NonNull Account account, @NonNull String msToken) {
-        this.id = id;
+    public Seller() {
+        this.id = new UUID(0, 0);
+        this.account = new Account();
+        this.msToken = "";
+    }
+
+    public Seller(@NonNull Account account, @NonNull String msToken) {
+        this.id = new UUID(0, 0);
         this.account = account;
         this.msToken = msToken;
     }
