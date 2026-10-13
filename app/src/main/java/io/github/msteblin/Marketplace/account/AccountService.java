@@ -2,12 +2,12 @@ package io.github.msteblin.Marketplace.account;
 
 import io.github.msteblin.Marketplace.account.dto.AccountCreationDTO;
 import io.github.msteblin.Marketplace.account.dto.AccountDTO;
+import io.github.msteblin.Marketplace.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,9 +29,9 @@ public class AccountService {
 
     @Transactional
     public AccountDTO getAccount(UUID id) {
-        // TODO: unwrap safely, throw exception if it is empty
-        Optional<Account> account = accountRepository.findById(id);
-        return AccountDTO.fromAccount(account.get());
+        Account account = accountRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("id=" + id));
+        return AccountDTO.fromAccount(account);
     }
 
     @Transactional
