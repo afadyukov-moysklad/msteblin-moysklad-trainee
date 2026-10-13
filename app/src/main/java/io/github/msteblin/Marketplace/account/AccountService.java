@@ -9,9 +9,11 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
-    // TODO: implement DTO conversions, creation logic
     @Transactional
-    public void createAccount(AccountCreationDTO accountCreationDTO) {
-        // ...
+    public AccountDTO createAccount(AccountCreationDTO accountCreationDTO) {
+        // TODO: implement argon2id hashing
+        Account account = new Account(accountCreationDTO.login(), "");
+        Account savedAccount = accountRepository.save(account);
+        return AccountDTO.fromAccount(savedAccount);
     }
 }

@@ -9,7 +9,7 @@ import java.util.UUID;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private final UUID id;
+    private UUID id;
 
     @NonNull
     @Column(unique = true)
@@ -17,14 +17,24 @@ public class Account {
     @NonNull
     private String hash;
 
-    public Account(UUID id, @NonNull String login, @NonNull String hash) {
-        this.id = id;
+    public Account() {
+        this.id = new UUID(0, 0);
+        this.login = "";
+        this.hash = "";
+    }
+
+    public Account(@NonNull String login, @NonNull String hash) {
+        this.id = new UUID(0, 0);
         this.login = login;
         this.hash = hash;
     }
 
     public UUID getId() {
         return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public @NonNull String getLogin() {
