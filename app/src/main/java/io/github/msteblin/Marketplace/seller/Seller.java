@@ -9,6 +9,8 @@ import org.jspecify.annotations.NonNull;
 import java.util.UUID;
 
 @Entity
+@Table(name = "sellers")
+@SuppressWarnings("unused")
 public class Seller {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -19,13 +21,13 @@ public class Seller {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private final Account account;
     @NonNull
-    @Column(unique = true)
-    private String ms_token;
+    @Column(unique = true, name = "ms_token")
+    private String msToken;
 
     public Seller(UUID id, @NonNull Account account, @NonNull String msToken) {
         this.id = id;
         this.account = account;
-        ms_token = msToken;
+        this.msToken = msToken;
     }
 
     public UUID getId() {
@@ -36,11 +38,11 @@ public class Seller {
         return account;
     }
 
-    public @NonNull String getMs_token() {
-        return ms_token;
+    public @NonNull String getMsToken() {
+        return msToken;
     }
 
-    public void setMs_token(@NonNull String ms_token) {
-        this.ms_token = ms_token;
+    public void setMsToken(@NonNull String msToken) {
+        this.msToken = msToken;
     }
 }

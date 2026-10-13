@@ -7,8 +7,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface SellerRepository extends JpaRepository<Seller, UUID> {
-    <S extends Seller> S save(@NonNull S entity);
-    Optional<Seller> findById(@NonNull UUID uuid);
+    @NonNull<S extends Seller> S save(@NonNull S entity);
+    @NonNull Optional<Seller> findById(@NonNull UUID uuid);
     boolean existsById(@NonNull UUID uuid);
     void deleteById(@NonNull UUID uuid);
     void delete(@NonNull Seller entity);
