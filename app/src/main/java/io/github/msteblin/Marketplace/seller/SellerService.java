@@ -23,6 +23,7 @@ public class SellerService {
     @SuppressWarnings("unused")
     private APIClient apiClient;
 
+    // TODO: create an account automatically
     @Transactional
     public SellerDTO createSeller(SellerCreationDTO sellerCreationDTO) {
         // TODO: add token encryption
