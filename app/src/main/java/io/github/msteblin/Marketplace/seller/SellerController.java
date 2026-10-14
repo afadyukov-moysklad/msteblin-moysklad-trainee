@@ -2,7 +2,6 @@ package io.github.msteblin.Marketplace.seller;
 
 import io.github.msteblin.Marketplace.seller.dto.SellerCreationDTO;
 import io.github.msteblin.Marketplace.seller.dto.SellerDTO;
-import io.github.msteblin.MoySkladAPI.APIClient;
 import io.github.msteblin.MoySkladAPI.types.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -14,12 +14,12 @@ import java.util.UUID;
 public class Seller {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private final UUID id;
 
     @OneToOne(optional = false)
     @NonNull
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Account account;
+    private final Account account;
     @NonNull
     @Column(unique = true, name = "ms_token")
     private String msToken;
