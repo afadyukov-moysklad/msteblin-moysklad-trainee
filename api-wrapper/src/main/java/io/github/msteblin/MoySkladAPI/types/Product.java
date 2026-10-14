@@ -2,5 +2,6 @@ package io.github.msteblin.MoySkladAPI.types;
 
 import java.util.UUID;
 
-public record Product(UUID id, String name) {
+// TODO: limit string sizes
+public record Product(UUID id, String name, String externalCode) {
 }
