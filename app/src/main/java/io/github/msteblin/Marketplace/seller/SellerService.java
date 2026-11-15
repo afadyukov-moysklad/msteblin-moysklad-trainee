@@ -7,7 +7,6 @@ import io.github.msteblin.Marketplace.seller.dto.SellerCreationDTO;
 import io.github.msteblin.Marketplace.seller.dto.SellerDTO;
 import io.github.msteblin.MoySkladAPI.APIClient;
 import io.github.msteblin.MoySkladAPI.types.Product;
-import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

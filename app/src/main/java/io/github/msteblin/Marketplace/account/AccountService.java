@@ -3,7 +3,6 @@ package io.github.msteblin.Marketplace.account;
 import io.github.msteblin.Marketplace.account.dto.AccountCreationDTO;
 import io.github.msteblin.Marketplace.account.dto.AccountDTO;
 import io.github.msteblin.Marketplace.exception.NotFoundException;
-import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
