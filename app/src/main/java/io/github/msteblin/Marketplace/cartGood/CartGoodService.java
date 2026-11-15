@@ -5,6 +5,7 @@ import io.github.msteblin.Marketplace.cartGood.dto.CartGoodDTO;
 import io.github.msteblin.Marketplace.customer.Customer;
 import io.github.msteblin.Marketplace.exception.NotFoundException;
 import io.github.msteblin.Marketplace.seller.Seller;
+import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +35,15 @@ public class CartGoodService {
         return CartGoodDTO.fromCartGood(savedCartGood);
     }
 
-    @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cartGood", "operation", "create"})
+    @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "create"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "create"})
     @Transactional
     public CartGoodDTO createCartGood(CartGoodCreationDTO dto, UUID customerId, UUID msGoodId) {
         return _createCartGood(dto, new CartGoodId(customerId, msGoodId));
     }
 
-    @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cartGood", "operation", "create"})
+    @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "create"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "create"})
     @Transactional
     public CartGoodDTO createCartGood(CartGoodCreationDTO dto, CartGoodId id) {
         return _createCartGood(dto, id);
@@ -56,18 +59,21 @@ public class CartGoodService {
     }
 
     @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "get"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "get"})
     @Transactional(readOnly = true)
     public CartGoodDTO getCartGood(UUID customerId, UUID msGoodId) {
         return _getCartGood(new CartGoodId(customerId, msGoodId));
     }
 
     @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "get"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "create"})
     @Transactional(readOnly = true)
     public CartGoodDTO getCartGood(CartGoodId id) {
         return _getCartGood(id);
     }
 
     @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "list"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "list"})
     @Transactional(readOnly = true)
     public List<CartGoodDTO> getCustomerCartGoods(UUID customerId) {
         List<CartGood> cartGoods = cartGoodRepository.findAllByCustomerId(customerId);
@@ -82,12 +88,14 @@ public class CartGoodService {
     }
 
     @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "delete"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "delete"})
     @Transactional
     public void deleteCartGood(UUID customerId, UUID msGoodId) {
         _deleteCartGood(new CartGoodId(customerId, msGoodId));
     }
 
     @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "delete"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "delete"})
     @Transactional
     public void deleteCartGood(CartGoodId id) {
         _deleteCartGood(id);
@@ -100,12 +108,14 @@ public class CartGoodService {
     }
 
     @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "process"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "process"})
     @Transactional
     public void processCartGood(UUID customerId, UUID msGoodId) {
         _processCartGood(new CartGoodId(customerId, msGoodId));
     }
 
     @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "process"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "process"})
     @Transactional
     public void processCartGood(CartGoodId id) {
         _processCartGood(id);

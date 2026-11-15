@@ -5,6 +5,7 @@ import io.github.msteblin.Marketplace.account.AccountRepository;
 import io.github.msteblin.Marketplace.customer.dto.CustomerCreationDTO;
 import io.github.msteblin.Marketplace.customer.dto.CustomerDTO;
 import io.github.msteblin.Marketplace.exception.NotFoundException;
+import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ public class CustomerService {
 
     // TODO: create an account automatically
     @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "customer", "operation", "create"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "customer", "operation", "create"})
     @Transactional
     public CustomerDTO createCustomer(CustomerCreationDTO customerCreationDTO) {
         // TODO: call AccountService.getAccount instead?
@@ -39,6 +41,7 @@ public class CustomerService {
     }
 
     @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "customer", "operation", "get"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "customer", "operation", "get"})
     @Transactional(readOnly = true)
     public CustomerDTO getCustomer(UUID id) {
         // TODO: commonize
@@ -50,6 +53,7 @@ public class CustomerService {
     }
 
     @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "customer", "operation", "delete"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "customer", "operation", "delete"})
     @Transactional
     public void deleteCustomer(UUID id) {
         log.info("Deleting customer, id={}", id);

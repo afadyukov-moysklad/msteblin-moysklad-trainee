@@ -3,6 +3,7 @@ package io.github.msteblin.Marketplace.account;
 import io.github.msteblin.Marketplace.account.dto.AccountCreationDTO;
 import io.github.msteblin.Marketplace.account.dto.AccountDTO;
 import io.github.msteblin.Marketplace.exception.NotFoundException;
+import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ public class AccountService {
     private PasswordEncoder passwordEncoder;
 
     @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "account", "operation", "create"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "account", "operation", "create"})
     @Transactional
     public AccountDTO createAccount(AccountCreationDTO accountCreationDTO) {
         Account account = new Account(accountCreationDTO.login(), passwordEncoder.encode(accountCreationDTO.password()));
@@ -36,6 +38,7 @@ public class AccountService {
     }
 
     @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "account", "operation", "get"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "account", "operation", "get"})
     @Transactional(readOnly = true)
     public AccountDTO getAccount(UUID id) {
         Account account = accountRepository.findById(id)
@@ -46,6 +49,7 @@ public class AccountService {
     }
 
     @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "account", "operation", "delete"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "account", "operation", "delete"})
     @Transactional
     public void deleteAccount(UUID id) {
         log.info("Deleting account, id={}", id);

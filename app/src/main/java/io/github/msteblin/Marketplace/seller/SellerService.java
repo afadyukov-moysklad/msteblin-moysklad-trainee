@@ -7,6 +7,7 @@ import io.github.msteblin.Marketplace.seller.dto.SellerCreationDTO;
 import io.github.msteblin.Marketplace.seller.dto.SellerDTO;
 import io.github.msteblin.MoySkladAPI.APIClient;
 import io.github.msteblin.MoySkladAPI.types.Product;
+import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,7 @@ public class SellerService {
     private ObjectProvider<APIClient> apiProvider;
 
     @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "seller", "operation", "create"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "seller", "operation", "create"})
     @Transactional
     public SellerDTO createSeller(SellerCreationDTO sellerCreationDTO) {
         // TODO: call AccountService.getAccount instead?
@@ -47,6 +49,7 @@ public class SellerService {
     }
 
     @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "seller", "operation", "get"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "seller", "operation", "get"})
     @Transactional(readOnly = true)
     public SellerDTO getSeller(UUID id) {
         // TODO: commonize
@@ -58,6 +61,7 @@ public class SellerService {
     }
 
     @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "seller", "operation", "delete"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "seller", "operation", "delete"})
     @Transactional
     public void deleteSeller(UUID id) {
         log.info("Deleting seller, id={}", id);
