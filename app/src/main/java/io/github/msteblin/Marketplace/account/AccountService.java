@@ -26,9 +26,8 @@ public class AccountService {
     @SuppressWarnings("unused")
     private PasswordEncoder passwordEncoder;
 
+    @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "account", "operation", "create"})
     @Transactional
-    @Timed(value = "account.create.time")
-    @Counted(value = "account.create.count")
     public AccountDTO createAccount(AccountCreationDTO accountCreationDTO) {
         Account account = new Account(accountCreationDTO.login(), passwordEncoder.encode(accountCreationDTO.password()));
         Account savedAccount = accountRepository.save(account);
@@ -37,6 +36,7 @@ public class AccountService {
         return AccountDTO.fromAccount(savedAccount);
     }
 
+    @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "account", "operation", "get"})
     @Transactional(readOnly = true)
     public AccountDTO getAccount(UUID id) {
         Account account = accountRepository.findById(id)
@@ -46,6 +46,7 @@ public class AccountService {
         return AccountDTO.fromAccount(account);
     }
 
+    @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "account", "operation", "delete"})
     @Transactional
     public void deleteAccount(UUID id) {
         log.info("Deleting account, id={}", id);
