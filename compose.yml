@@ -36,6 +36,7 @@ services:
         target: /etc/prometheus/prometheus.yml
       - source: prometheus-alert-rules
         target: /etc/prometheus/alert.rules.yml
+    hostname: prometheus
   grafana:
     image: grafana/grafana
     restart: unless-stopped
@@ -43,16 +44,20 @@ services:
       - 3000:3000
     depends_on:
       - prometheus
+      - loki
     volumes:
       - grafana:/var/lib/grafana
+    configs:
+      - source: grafana-dashboards
+        target: /etc/grafana/provisioning/dashboards/dashboards.yml
+      - source: grafana-datasources
+        target: /etc/grafana/provisioning/datasources/datasources.yml
   loki:
     image: grafana/loki
     command: "-config.file=/etc/loki/config.yml"
     restart: unless-stopped
     ports:
       - 3100:3100
-    depends_on:
-      - grafana
     volumes:
       - loki:/loki
     configs:
@@ -70,7 +75,8 @@ services:
     ports:
       - 12345:12345
     depends_on:
-      - grafana
+      - app
+      - loki
     volumes:
       - logs:/var/log/moysklad-trainee
       - alloy:/var/lib/alloy/data
@@ -95,3 +101,7 @@ configs:
     file: config/loki/config.yml
   alloy:
     file: config/alloy/config.alloy
+  grafana-dashboards:
+    file: config/grafana/dashboards.yml
+  grafana-datasources:
+    file: config/grafana/datasources.yml
