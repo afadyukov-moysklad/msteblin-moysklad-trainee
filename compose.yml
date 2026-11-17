@@ -36,14 +36,61 @@ services:
         target: /etc/prometheus/prometheus.yml
       - source: prometheus-alert-rules
         target: /etc/prometheus/alert.rules.yml
+  grafana:
+    image: grafana/grafana
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana:/var/lib/grafana
+  loki:
+    image: grafana/loki
+    command: "-config.file=/etc/loki/config.yml"
+    restart: unless-stopped
+    ports:
+      - 3100:3100
+    depends_on:
+      - grafana
+    volumes:
+      - loki:/loki
+    configs:
+      - source: loki
+        target: /etc/loki/config.yml
+  alloy:
+    image: grafana/alloy
+    command:
+      - "run"
+      - "--server.http.listen-addr=0.0.0.0:12345"
+      - "--storage.path=/var/lib/alloy/data"
+      - "/etc/alloy/config.alloy"
+    restart: unless-stopped
+    ports:
+      - 12345:12345
+    depends_on:
+      - grafana
+    volumes:
+      - logs:/var/log/moysklad-trainee
+      - alloy:/var/lib/alloy/data
+    configs:
+      - source: alloy
+        target: /etc/alloy/config.alloy
 
 volumes:
   db:
   logs:
   prometheus:
+  grafana:
+  loki:
+  alloy:
 
 configs:
   prometheus:
-    file: prometheus/prometheus.yml
+    file: config/prometheus/prometheus.yml
   prometheus-alert-rules:
-    file: prometheus/alert.rules.yml
+    file: config/prometheus/alert.rules.yml
+  loki:
+    file: config/loki/config.yml
+  alloy:
+    file: config/alloy/config.alloy

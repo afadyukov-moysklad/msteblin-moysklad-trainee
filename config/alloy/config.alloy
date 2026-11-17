@@ -1,0 +1,16 @@
+local.file_match "app_logs" {
+  path_targets = [
+    {
+      "__path__" = "/var/log/moysklad-trainee/application.log",
+      "app"      = "moysklad-trainee",
+      "env"      = "local",
+    },
+  ]
+  sync_period = "5s"
+}
+
+loki.write "local_loki" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}
