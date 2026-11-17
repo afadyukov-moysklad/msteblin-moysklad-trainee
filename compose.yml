@@ -58,6 +58,7 @@ services:
     configs:
       - source: loki
         target: /etc/loki/config.yml
+    hostname: loki
   alloy:
     image: grafana/alloy
     command:
