@@ -53,7 +53,9 @@ public class SellerServiceMetricsTest {
 
         sellerService.createSeller(new SellerCreationDTO(account.getId(), token));
 
-        Search search = meterRegistry.find("seller.create.count");
+        Search search = meterRegistry.find("moysklad-trainee.operation")
+                .tag("entity", "seller")
+                .tag("operation", "create");
         assertThat(getCount(search.tag("result", "success"))).isEqualTo(1);
         assertThat(getCount(search.tag("result", "failure"))).isEqualTo(0);
     }
@@ -69,7 +71,9 @@ public class SellerServiceMetricsTest {
         assertThatThrownBy(() -> sellerService.createSeller(new SellerCreationDTO(account.getId(), token)))
                 .isInstanceOf(RuntimeException.class);
 
-        Search search = meterRegistry.find("seller.create.count");
+        Search search = meterRegistry.find("moysklad-trainee.operation")
+                .tag("entity", "seller")
+                .tag("operation", "create");
         assertThat(getCount(search.tag("result", "failure"))).isEqualTo(1);
         assertThat(getCount(search.tag("result", "success"))).isEqualTo(0);
     }
@@ -84,7 +88,10 @@ public class SellerServiceMetricsTest {
         assertThatThrownBy(() -> sellerService.createSeller(new SellerCreationDTO(account.getId(), token)))
                 .isInstanceOf(NotFoundException.class);
 
-        Search search = meterRegistry.find("seller.create.count").tag("result", "failure");
+        Search search = meterRegistry.find("moysklad-trainee.operation")
+                .tag("entity", "seller")
+                .tag("operation", "create")
+                .tag("result", "failure");
         assertThat(getCount(search.tag("exception", NotFoundException.class.getSimpleName()))).isEqualTo(1);
         assertThat(getCount(search.tag("exception", "none"))).isEqualTo(0);
     }

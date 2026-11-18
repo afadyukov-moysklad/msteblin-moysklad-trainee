@@ -22,17 +22,7 @@ public class CartGoodService {
     @SuppressWarnings("unused")
     private CartGoodRepository cartGoodRepository;
 
-    @Transactional
-    @Timed(value = "cartGood.create.time")
-    @Counted(value = "cartGood.create.count")
-    public CartGoodDTO createCartGood(CartGoodCreationDTO dto, UUID customerId, UUID msGoodId) {
-        return createCartGood(dto, new CartGoodId(customerId, msGoodId));
-    }
-
-    @Transactional
-    @Timed(value = "cartGood.create.time")
-    @Counted(value = "cartGood.create.count")
-    public CartGoodDTO createCartGood(CartGoodCreationDTO dto, CartGoodId id) {
+    private CartGoodDTO _createCartGood(CartGoodCreationDTO dto, CartGoodId id) {
         CartGood cartGood = new CartGood(
                 new Customer(id.getCustomerId()),
                 id.getMsGoodId(),
@@ -45,13 +35,21 @@ public class CartGoodService {
         return CartGoodDTO.fromCartGood(savedCartGood);
     }
 
-    @Transactional(readOnly = true)
-    public CartGoodDTO getCartGood(UUID customerId, UUID msGoodId) {
-        return getCartGood(new CartGoodId(customerId, msGoodId));
+    @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "create"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "create"})
+    @Transactional
+    public CartGoodDTO createCartGood(CartGoodCreationDTO dto, UUID customerId, UUID msGoodId) {
+        return _createCartGood(dto, new CartGoodId(customerId, msGoodId));
     }
 
-    @Transactional(readOnly = true)
-    public CartGoodDTO getCartGood(CartGoodId id) {
+    @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "create"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "create"})
+    @Transactional
+    public CartGoodDTO createCartGood(CartGoodCreationDTO dto, CartGoodId id) {
+        return _createCartGood(dto, id);
+    }
+
+    private CartGoodDTO _getCartGood(CartGoodId id) {
         // TODO: commonize
         CartGood cartGood = cartGoodRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("cart good id=" + id));
@@ -60,6 +58,22 @@ public class CartGoodService {
         return CartGoodDTO.fromCartGood(cartGood);
     }
 
+    @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "get"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "get"})
+    @Transactional(readOnly = true)
+    public CartGoodDTO getCartGood(UUID customerId, UUID msGoodId) {
+        return _getCartGood(new CartGoodId(customerId, msGoodId));
+    }
+
+    @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "get"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "create"})
+    @Transactional(readOnly = true)
+    public CartGoodDTO getCartGood(CartGoodId id) {
+        return _getCartGood(id);
+    }
+
+    @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "list"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "list"})
     @Transactional(readOnly = true)
     public List<CartGoodDTO> getCustomerCartGoods(UUID customerId) {
         List<CartGood> cartGoods = cartGoodRepository.findAllByCustomerId(customerId);
@@ -68,30 +82,43 @@ public class CartGoodService {
         return cartGoods.stream().map(CartGoodDTO::fromCartGood).toList();
     }
 
-    @Transactional
-    public void deleteCartGood(UUID customerId, UUID msGoodId) {
-        deleteCartGood(new CartGoodId(customerId, msGoodId));
-    }
-
-    @Transactional
-    public void deleteCartGood(CartGoodId id) {
+    private void _deleteCartGood(CartGoodId id) {
         log.info("Deleting cart good, id={}", id);
         cartGoodRepository.deleteById(id);
     }
 
-    // TODO: implement
+    @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "delete"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "delete"})
     @Transactional
-    @Timed(value = "cartGood.process.time")
-    @Counted(value = "cartGood.process.count")
-    public void processCartGood(UUID customerId, UUID msGoodId) {
-        processCartGood(new CartGoodId(customerId, msGoodId));
+    public void deleteCartGood(UUID customerId, UUID msGoodId) {
+        _deleteCartGood(new CartGoodId(customerId, msGoodId));
     }
 
+    @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "delete"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "delete"})
     @Transactional
-    @Timed(value = "cartGood.process.time")
-    @Counted(value = "cartGood.process.count")
-    public void processCartGood(CartGoodId id) {
+    public void deleteCartGood(CartGoodId id) {
+        _deleteCartGood(id);
+    }
+
+    // TODO: implement
+    private void _processCartGood(CartGoodId id) {
         // TODO: submit an order
         // deleteCartGood(id);
     }
+
+    @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "process"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "process"})
+    @Transactional
+    public void processCartGood(UUID customerId, UUID msGoodId) {
+        _processCartGood(new CartGoodId(customerId, msGoodId));
+    }
+
+    @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "process"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "cart_good", "operation", "process"})
+    @Transactional
+    public void processCartGood(CartGoodId id) {
+        _processCartGood(id);
+    }
+
 }

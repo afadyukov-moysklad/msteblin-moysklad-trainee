@@ -33,9 +33,9 @@ public class SellerService {
     @SuppressWarnings("unused")
     private ObjectProvider<APIClient> apiProvider;
 
+    @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "seller", "operation", "create"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "seller", "operation", "create"})
     @Transactional
-    @Timed(value = "seller.create.time")
-    @Counted(value = "seller.create.count")
     public SellerDTO createSeller(SellerCreationDTO sellerCreationDTO) {
         // TODO: call AccountService.getAccount instead?
         Account account = accountRepository.findById(sellerCreationDTO.accountId())
@@ -48,6 +48,8 @@ public class SellerService {
         return SellerDTO.fromSeller(savedSeller);
     }
 
+    @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "seller", "operation", "get"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "seller", "operation", "get"})
     @Transactional(readOnly = true)
     public SellerDTO getSeller(UUID id) {
         // TODO: commonize
@@ -58,6 +60,8 @@ public class SellerService {
         return SellerDTO.fromSeller(seller);
     }
 
+    @Timed(value = "moysklad-trainee.operation", extraTags = {"entity", "seller", "operation", "delete"})
+    @Counted(value = "moysklad-trainee.operation", extraTags = {"entity", "seller", "operation", "delete"})
     @Transactional
     public void deleteSeller(UUID id) {
         log.info("Deleting seller, id={}", id);
