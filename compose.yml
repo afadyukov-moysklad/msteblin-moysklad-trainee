@@ -52,6 +52,8 @@ services:
         target: /etc/grafana/provisioning/dashboards/dashboards.yml
       - source: grafana-datasources
         target: /etc/grafana/provisioning/datasources/datasources.yml
+      - source: grafana-json-dashboard
+        target: /var/lib/grafana/dashboards/dashboard.json
   loki:
     image: grafana/loki
     command: "-config.file=/etc/loki/config.yml"
@@ -105,3 +107,5 @@ configs:
     file: config/grafana/dashboards.yml
   grafana-datasources:
     file: config/grafana/datasources.yml
+  grafana-json-dashboard:
+    file: config/grafana/dashboard.json
